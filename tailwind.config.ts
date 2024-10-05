@@ -9,7 +9,11 @@ module.exports = {
       './nuxt.config.{js,ts}',
     ],
     theme: {
-      extend: {},
+      extend: {
+        fontFamily: {
+          sans: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospace'],
+        },
+      },
     },
     plugins: [require('tailwindcss-primeui')],
   };
