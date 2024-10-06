@@ -17,6 +17,14 @@ const addtionTask:ComputedRef<TTask|undefined> = computed(() => internalStore.st
 
 const icon:ComputedRef<string> = computed(():string => isOpen.value ? 'pi pi-angle-down':'pi pi-angle-up');
 
+const drawerModelValue: Ref<{
+    visible:boolean,
+    task:TTask|undefined
+}> = ref({
+    visible:false,
+    task:undefined,
+})
+
 
 const toggleOpen = ():void => {
     internalStore.toggleStatusOpen(props.status);
@@ -36,6 +44,11 @@ const onClickDeleteProvisinalTask = ():void => {
     internalStore.deleteProvisionalTask(props.status);
 }
 
+const onClickDrawer = (task:TTask):void => {
+    drawerModelValue.value.visible = true;
+    drawerModelValue.value.task = task;
+}
+
 </script>
 
 <template>
@@ -46,10 +59,13 @@ const onClickDeleteProvisinalTask = ():void => {
             </div>
             <div class="col-start-2 col-end-25">
                 <div
-                    class="w-full p-3 rounded-xl flex flex-row items-center justify-between gap-2 min-h-16"
-                    :class="[props.status === 'todo' ? 'bg-slate-200': props.status==='progress' ? 'bg-indigo-100': 'bg-sky-100']"
+                    class="w-full p-3 rounded-xl flex flex-row items-center justify-between gap-2 min-h-16 border"
+                    :class="[
+                        props.status === 'todo' ?'bg-slate-200 border-slate-300':
+                        props.status==='progress' ? 'bg-indigo-100 border-indigo-300': 'bg-sky-100 border-sky-300'
+                    ]"
                 >
-                     <div class="flex flex-row items-center gap-3">
+                     <div class="flex flex-row items-center gap-2">
                         <div class="rounded-full bg-white w-6 h-6 flex items-center justify-center shadow-sm border-slate-500">
                             <div
                                 class="rounded-full w-2 h-2"
@@ -80,15 +96,20 @@ const onClickDeleteProvisinalTask = ():void => {
                 </div>
             </div>
             <Divider class="custom-divider" primevue-custom-divider />
-            <div class="flex items-center grid grid-cols-24 h-14 hover:bg-slate-300 rounded-xl" v-for="(task,index) of props.tasks" :key="index">
-                <div class="col-start-2 col-end-8">
-                    <p class="text-slate-900 font-semibold text-lg">{{ task.title }}</p>
+            <div class="group flex items-center grid grid-cols-24 h-14 rounded-xl" v-for="(task,index) of props.tasks" :key="index">
+                <div class="col-start-1 col-end-2 opacity-0 group-hover:opacity-100">
+                    <Button icon="pi pi-ellipsis-h" text rounded severity="secondary"></Button>
                 </div>
-                <div class="col-start-9 col-end-13">
-                    <p class="text-slate-600">{{ format(task.startDate,'yyyy/MM/dd') }}</p>
-                </div>
-                <div class="col-start-14 col-end-18">
-                    <p :class="[task.dueDate.getTime() < addDays(new Date(),4).getTime() ? 'text-red-600' : 'text-slate-600']">{{ format(task.dueDate,'yyyy/MM/dd') }}</p>
+                <div class="flex items-center grid grid-cols-subgrid col-span-23 group-hover:bg-slate-100 rounded-xl h-14" @click="onClickDrawer(task)">
+                    <div class="col-start-1 col-end-7 pl-1">
+                        <p class="text-slate-900 font-semibold text-lg">{{ task.title }}</p>
+                    </div>
+                    <div class="col-start-8 col-end-12">
+                        <p class="text-slate-600">{{ format(task.startDate,'yyyy/MM/dd') }}</p>
+                    </div>
+                    <div class="col-start-13 col-end-17">
+                        <p :class="[task.dueDate.getTime() < addDays(new Date(),4).getTime() ? 'text-red-600' : 'text-slate-600']">{{ format(task.dueDate,'yyyy/MM/dd') }}</p>
+                    </div>
                 </div>
             </div>
             <!-- 追加コンポーネント -->
@@ -113,6 +134,8 @@ const onClickDeleteProvisinalTask = ():void => {
             </div>
         </div>
     </div>
+    <!-- todo -->
+    <!-- <LazyInternalHomeDrawer v-model:model-value="drawerModelValue"></LazyInternalHomeDrawer> -->
 </template>
 
 <style scoped>
