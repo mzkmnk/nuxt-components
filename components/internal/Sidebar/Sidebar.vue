@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useInternalStore } from '@/stores/internal/internal.store';
 import type { TNavigatePath } from '@/stores/router.store';
 
 type TSidebarItem = {
@@ -27,7 +26,7 @@ const sidebarItems:TSidebarItem[] = [
         title:'roadmap',
         path: '/internal/roadmap',
         dev:true
-    }
+    },
 ];
 
 const routerStore = useRouterStore();
@@ -41,12 +40,12 @@ const onClickSidebarItem = (path:TNavigatePath):void => {
 </script>
 
 <template>
-    <div class="h-screen w-80 flex flex-col py-2 px-4 bg-slate-100 gap-3">
+    <div class="h-screen w-80 flex flex-col py-4 px-4 bg-slate-100 gap-3">
         <div
             class="px-4 py-2 rounded-xl flex flex-row gap-2 items-center justify-between hover:bg-slate-300"
             v-for="(sidebarItem,index) of sidebarItems"
             v-on:click="onClickSidebarItem(sidebarItem.path)"
-            :class="{'bg-slate-300': sidebarItem.path === path}"
+            :class="{'bg-violet-200': sidebarItem.path === path}"
             :key="index"
         >
             <div class="flex flex-row gap-2 items-center">

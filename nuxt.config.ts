@@ -11,6 +11,9 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt'
   ],
+  css: [
+    'primeicons/primeicons.css',
+  ],
   primevue: {
     options: {
         theme: {
