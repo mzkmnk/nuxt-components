@@ -1,7 +1,4 @@
 <script setup lang="ts">
-    definePageMeta({
-        redirect() {
-            return '/internal'
-        },
-    })
+const routerStore = useRouterStore();
+routerStore.navigate('/internal/home');
 </script>

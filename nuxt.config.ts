@@ -7,11 +7,10 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@nuxtjs/tailwindcss',
-    '@primevue/nuxt-module'
+    '@primevue/nuxt-module',
+    '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt'
   ],
-  // css: [
-  //   '@/assets/css/tailwind.css'
-  // ],
   primevue: {
     options: {
         theme: {

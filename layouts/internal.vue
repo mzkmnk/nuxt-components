@@ -1,6 +1,10 @@
 <template>
     <div class="flex flex-row">
-        <LazyInternalSidebar></LazyInternalSidebar>
-        <slot></slot>
+        <div>
+            <LazyInternalSidebar></LazyInternalSidebar>
+        </div>
+        <div class="w-full">
+            <NuxtPage />
+        </div>
     </div>
 </template>
