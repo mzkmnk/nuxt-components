@@ -17,14 +17,9 @@ const addtionTask:ComputedRef<TTask|undefined> = computed(() => internalStore.st
 
 const icon:ComputedRef<string> = computed(():string => isOpen.value ? 'pi pi-angle-down':'pi pi-angle-up');
 
-const drawerModelValue: Ref<{
-    visible:boolean,
-    task:TTask|undefined
-}> = ref({
-    visible:false,
-    task:undefined,
-})
+const drawerVisible = ref<boolean>(false);
 
+const drawerTask = ref<TTask|undefined>(undefined);
 
 const toggleOpen = ():void => {
     internalStore.toggleStatusOpen(props.status);
@@ -45,8 +40,8 @@ const onClickDeleteProvisinalTask = ():void => {
 }
 
 const onClickDrawer = (task:TTask):void => {
-    drawerModelValue.value.visible = true;
-    drawerModelValue.value.task = task;
+    drawerVisible.value = true;
+    drawerTask.value = task;
 }
 
 </script>
@@ -96,11 +91,18 @@ const onClickDrawer = (task:TTask):void => {
                 </div>
             </div>
             <Divider class="custom-divider" primevue-custom-divider />
-            <div class="group flex items-center grid grid-cols-24 h-14 rounded-xl" v-for="(task,index) of props.tasks" :key="index">
+            <div
+                class="group flex items-center grid grid-cols-24 h-14 rounded-xl"
+                v-for="(task,index) of props.tasks"
+                :key="index"
+            >
                 <div class="col-start-1 col-end-2 opacity-0 group-hover:opacity-100">
                     <Button icon="pi pi-ellipsis-h" text rounded severity="secondary"></Button>
                 </div>
-                <div class="flex items-center grid grid-cols-subgrid col-span-23 group-hover:bg-slate-100 rounded-xl h-14" @click="onClickDrawer(task)">
+                <div
+                    class="flex items-center grid grid-cols-subgrid col-span-23 group-hover:bg-slate-100 rounded-xl h-14"
+                    @click="onClickDrawer(task)"
+                >
                     <div class="col-start-1 col-end-7 pl-1">
                         <p class="text-slate-900 font-semibold text-lg">{{ task.title }}</p>
                     </div>
@@ -134,8 +136,10 @@ const onClickDrawer = (task:TTask):void => {
             </div>
         </div>
     </div>
-    <!-- todo -->
-    <!-- <LazyInternalHomeDrawer v-model:model-value="drawerModelValue"></LazyInternalHomeDrawer> -->
+    <!-- drawer -->
+    <Drawer v-model:visible="drawerVisible" header="Detail Task">
+        <h3>{{ drawerTask.title }}</h3>
+    </Drawer>
 </template>
 
 <style scoped>

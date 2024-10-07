@@ -13,6 +13,7 @@ export default defineNuxtConfig({
   ],
   css: [
     'primeicons/primeicons.css',
+    '~/assets/css/main.css'
   ],
   primevue: {
     options: {
